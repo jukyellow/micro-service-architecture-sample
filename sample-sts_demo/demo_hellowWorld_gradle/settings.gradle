@@ -1,0 +1,4 @@
+rootProject.name = 'demo_hellowWorld_gradle'
+
+include 'demo_common_gradle'
+include 'demo_sub_gradle'

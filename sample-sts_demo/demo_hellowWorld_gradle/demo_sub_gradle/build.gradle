@@ -1,0 +1,12 @@
+apply plugin: 'war'
+
+dependencies {
+	compile project(':demo_common_gradle')
+
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-test')
+	//jsp		
+	//<groupId>org.apache.tomcat.embed</groupId>
+	//<artifactId>tomcat-embed-jasper</artifactId>
+	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
+}

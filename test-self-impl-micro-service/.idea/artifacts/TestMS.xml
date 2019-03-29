@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="TestMS">
+    <output-path>$PROJECT_DIR$/out/artifacts/TestMS</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="main/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="main" />
+          <element id="module-output" name="ApiGW" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Java EE 6-Java EE 6" />
+          <element id="library" level="project" name="lib" />
+          <element id="library" level="module" name="JUnit4" module-name="main" />
+        </element>
+      </element>
+      <element id="dir-copy" path="$PROJECT_DIR$/out/artifacts/TestMS" />
+    </root>
+  </artifact>
+</component>

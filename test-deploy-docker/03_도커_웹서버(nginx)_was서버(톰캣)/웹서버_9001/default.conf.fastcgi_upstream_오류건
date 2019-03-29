@@ -1,0 +1,53 @@
+server {
+    listen       9001; #모놀리틱 서비스마다 1개의 웹서버port 지정(9001~부터 사용)
+    server_name  192.168.99.100; #도메인명, localhost;
+
+    #charset koi8-r;
+    #access_log  /var/log/nginx/localhost.log  localLog;
+
+    location / {  #root 경로 호출시
+        root   /usr/share/nginx/html;
+        index  index.html index.htm index.jsp;
+    }
+
+	#모놀리틱 서비스1개를 분해시 수백개의 MS및 port가 필요(10001~)
+	location ~ \.acps/v1/user$ {
+		fastcgi_pass   microsvc_user;  #웹app서비스를 제공하는 WAS서버 및 호출시 설정정보
+		fastcgi_index  index.jsp;     #WAS서버 초기 페이지
+		fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name; #?
+		include        fastcgi_params;  #WAS서버로 전달할 페라미터 설정파일   
+	}
+	location ~ \.acps/v1/blinfo$ {
+		fastcgi_pass   microsvc_blinfo;  #웹app서비스를 제공하는 WAS서버 및 호출시 설정정보
+		fastcgi_index  index.jsp;     #WAS서버 초기 페이지
+		fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name; #?
+		include        fastcgi_params;  #WAS서버로 전달할 페라미터 설정파일  
+	}
+	
+    #error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
+
+#Micro Service별 이중화를 고려해 포트번호를 2의 배수로 기본세팅하여 추가가능하게 고려함.
+#1000~10002
+upstream microsvc_user{
+	ip_hash;	#sticky session 설정(client접속이 하나의 WAS로만 호출하여 처리, 로그인세션유지등을 위해)
+	server 192.168.99.100:10001;  #MicroService를 처리할 개별port를 호출
+	#server 192.168.99.100:10002; #병렬로 WAS서버 추가시 사용가능
+	#server 192.168.99.100:10002 max_fails=5 fail_timeout=30s; #30초간 응답이 없고 5번반복시 호출중지
+}
+
+#Micro Service별 이중화를 고려해 포트번호를 2의 배수로 기본세팅하여 추가가능하게 고려함.
+#10003~10004
+upstream microsvc_blinfo{
+	ip_hash;	#sticky session 설정(client접속이 하나의 WAS로만 호출하여 처리, 로그인세션유지등을 위해)
+	server 192.168.99.100:10003;  #MicroService를 처리할 개별port를 호출
+	#server 192.168.99.100:10004; #병렬로 WAS서버 추가시 사용가능
+	#server 192.168.99.100:10004 max_fails=5 fail_timeout=30s; #30초간 응답이 없고 5번반복시 호출중지
+}

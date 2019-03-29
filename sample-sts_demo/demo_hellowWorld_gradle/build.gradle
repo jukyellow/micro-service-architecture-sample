@@ -1,0 +1,78 @@
+buildscript {
+	ext {
+		springBootVersion = '2.1.1.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+//apply plugin: 'java'
+//apply plugin: 'eclipse'
+//apply plugin: 'org.springframework.boot'
+//apply plugin: 'io.spring.dependency-management'
+//apply plugin: 'war'
+
+//war {
+//    baseName = 'wartest'
+//    version = '0.0.1-SNAPSHOT'
+//}
+
+//subprojects는 settings.gradle에 include된 프로젝트 전부를 관리합니다.
+//root 프로젝트까지 적용하고 싶다면 allprojects로 등록하시면 됩니다
+subprojects { 
+    group 'com.example'
+    version '1.0'
+
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
+    
+    //하위프로젝트 소스경로를 인식하기 위한 작업
+    //미정의시 -> Main class name has not been configured and it could not be resolved 오류 발생가능
+    task initSourceFolders {
+	    sourceSets*.java.srcDirs*.each {
+	        if( !it.exists() ) {
+	            it.mkdirs()
+	        }
+	    }	 
+	    sourceSets*.resources.srcDirs*.each {
+	        if( !it.exists() ) {
+	            it.mkdirs()
+	        }
+	    }
+	}
+
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
+}
+
+//project(':demo_sub_gradle') {
+    //dependencies {
+    	//공통 모듈 등록시
+        //compile project(':module-common')
+    //}
+//}
+//group = 'com.example'
+//version = '0.0.1-SNAPSHOT'
+//sourceCompatibility = 1.8
+
+//repositories {
+//	mavenCentral()
+//}
+
+//dependencies {
+//	implementation('org.springframework.boot:spring-boot-starter-web')
+//	testImplementation('org.springframework.boot:spring-boot-starter-test')
+//}

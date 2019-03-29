@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TEST_SERVICE_USER">
+    <select id="selectUserName" parameterType="Hashmap" resultType="String">
+        select name from user where uid = #{UID}
+    </select>
+    <select id="selectUserInsertDate" parameterType="Hashmap" resultType="Date">
+        select insert_date from user where uid = #{UID}
+    </select>
+</mapper>

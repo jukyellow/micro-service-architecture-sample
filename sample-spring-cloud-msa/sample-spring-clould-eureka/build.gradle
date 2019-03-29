@@ -1,0 +1,36 @@
+plugins {
+	id 'org.springframework.boot' version '1.5.10.RELEASE' //2.1.3.RELEASE
+	id 'java'
+	id 'war'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'service.discovery'
+version = '0.0.1'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+}
+
+ext {
+	set('springCloudVersion', 'Edgware.SR3')  //  Greenwich.RELEASE
+}
+
+dependencies {
+	//implementation 'org.springframework.boot:spring-boot-starter-parent' //의존성 관리에 도움을 받음? 2.0.1.RELEASE
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	//spring-cloud-starter-eureka-server => dashboar O, spring-cloud-starter-netflix-eureka-server => dashboard X
+	//implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server' 
+	implementation 'org.springframework.cloud:spring-cloud-starter-eureka-server' 
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+we
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}

@@ -1,0 +1,14 @@
+docker build -t mstest1 .
+docker run --rm --publish 10001:10001 -it mstest1
+
+docker build -t mstest2 .
+docker run --rm --publish 10003:10003 -it mstest2
+
+------------------------------------------------------
+
+샘플 웹서버 9001
+docker build -t nginx_microsvc .
+docker run -d -i -t -p 9001:9001 nginx_microsvc:latest
+
+웹서버 로그확인: 
+/var/log/nginx

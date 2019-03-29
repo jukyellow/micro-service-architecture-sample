@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.db.XmlMapper">
+    <select id="selectApiPortById" parameterType="String" resultType="String">
+        select API_WEB_PORT from MS_API_INFO where API_ID = #{API_ID}
+    </select>
+    <select id="selectApiPortById2" parameterType="Hashmap" resultType="String">
+        select port from MS_API_INFO where API_ID = #{API_ID}
+    </select>
+    <!--<select id="selectUserInsertDate" parameterType="Hashmap" resultType="Date">
+        select insert_date from user where uid = #{UID}
+    </select>-->
+</mapper>
